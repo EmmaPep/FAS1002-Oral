@@ -32,6 +32,170 @@ class: center, middle, inverse, title-slide
 
 
 
+
+
+
+---
+class: inverse, center, middle
+
+#Forcats
+
+###Le package du Tidyverse pour le catégoriel (for... cats!)
+##### Aussi, un anagramme de factor: du pur génie!
+
+.footnote[ Aucun chat n'a été maltraité durant l'utilisation de forcats
+
+
+---
+
+# Au menu
+
+1. Variables catégorielles
+2. Introduction à forcats
+3. Commencer avec des factors
+4. Exploration des données
+5. Associations des données
+6. Changement de l'ordre
+7. Changement des valeurs
+8. Ajout et élimination de classes
+9. Conclusion
+
+
+---
+
+# Variables catégorielles
+## Survol rapide
+
+**Qu'est-ce qu'un facteur?**
+- Variable qualitative  
+Variable ayant pour valeur un niveau,une catégorie, se trouvant dans une liste 
+(pré)définie de possibilités.
+  - Ordinale  
+    Peut être mise en ordre
+  - Nominale  
+    N'a pas de hiérarchie
+  - Binaire  
+    n'a que deux valeurs (excluant le NA)  
+    En statistique, cela inclu les variables booléennes, vrai ou faux 
+    et tout autre variable à 2 choix (dichotomiques) (H/F, Y/N). \
+    Dans R, il est possible de changer la classe en fonction de nos
+    besoins en tout temps.
+
+---
+
+# Variables catégorielles
+## Vocabulaire
+
+- **Factor**  
+  Facteur, variable catégorielle, variable qualitative  
+- **Levels**  
+  Niveaux: catégories prédéfinies, ce que l'on voit  
+  Par défaut: en ordre alphabétique
+- **Integer**  
+  Nombre entier différent/propre à chaque niveau: ce qui est traité par R  
+  En arrière/en mémoire...
+- **Vector**  
+  Vecteur, souvent utilisé pour donner les valeurs et leur ordre  
+  Écrit: `c(...)`
+
+---
+#Variables catégorielles
+## Attention aux pièges!
+
+- **Les chiffres**  
+Un chiffre utilisé à des fins nominale avec ou sans ordre/hiérarchie significative, 
+mais sans être sur une échelle CONTINUE peut être considéré comme 
+une variable catégorielle.  
+Ex.: Un numéro de téléphone est catégoriel,  
+la moyenne d'un numéro de téléphone n'est pas une donnée pertinente.  
+
+- **Il ne s'agit PAS de chaînes de caractères**  
+Ici, les données (mots, série de caractères) que l'on voit sur l'interface cachent un
+nombre entier.  
+Si vous avez un message d'erreur concernant un "character vector", méfiez-vous...
+- Les chaînes de caractères sont traitées avec stringr  
+- Les facteurs sont traités avec forcats  
+Il est toutefois possible d'utiliser des vecteurs de caractères dans les facteurs...  
+
+---
+
+#Pourquoi forcats?
+## ou pourquoi R aime-t-il tant les facteurs alors qu'ils sont difficiles à traiter
+
+R est fan #1 de catégoriel, la coercion vers le catégoriel est assez élevée dans
+l'ordre de priorité MAIS il est difficile de les traiter en base R.
+
+#### En base R
+- Utilisation de vecteur
+- Manipulation avec des séries de commandes comme subset() et l'utilisation 
+de vecteurs pour faire le tri et se débrouiller
+  - créatif (lire: parfois tiré par les cheveux)
+  - Difficile à suivre = facile d'introduire des biais d'interprétation
+- Utilise le point `as.factor()`
+
+--
+#Pourquoi forcats?
+
+#### Forcats
+- Vient remplir les lacunes de R  
+  Il n'y a donc pas d'équivalent direct pour chaque commande.  
+- utilisation 
+    -d'objets et de vecteurs est possible  
+    - de la syntaxe du tidyverse  
+    - la barre en dessous `as_factor()`    
+- Débute avec fct  
+- Message d'erreur ou avertissement lorsqu'il manque un niveau  
+
+---
+class: inverse, center, middle
+
+# Commencer du bon pied
+
+---
+
+#Pour travailler avec forcats, il faut des factors! 
+
+1. Lors de la lecture du fichier et des manipulations initiales:  
+  - Base R  
+      - L'argument: `StringAsFactor = TRUE`    
+  
+  - Tidyverse  
+     - S'amuser avec readr: `col_factor()`   
+
+2. En cours de travail
+  - Base R  
+      - `as.factor()`  
+  - Tidyverse  
+      - Forcats: `as_factor()`  
+
+.footnote[ l'utilisation de forcats peut être associée à un dataframe pour continuer
+à nettoyer des données, mais est aussi utilise dans les calculs, arguments et
+la préparation de graphique!  
+
+---
+
+class: inverse, center, middle
+
+#Exploration des données
+
+---
+
+## Exploration des données: Base R  
+
+Les fonctions de base sont utilent pour une exploration initiale des données
+Exemple de fonctions connues et utiles:
+  `summary()`  
+  `summary(df$variable)`  
+  `class()`   
+ 
+
+
+
+
+
+
+
+
 ## Typography
 
 Text can be **bold**, _italic_, ~~strikethrough~~, or `inline code`.
@@ -367,8 +531,8 @@ exclude: false
 DT::datatable(head(mtcars), fillContainer = FALSE, options = list(pageLength = 4))
 ```
 
-<div id="htmlwidget-c15beaeabc55318e8a1b" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c15beaeabc55318e8a1b">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],[21,21,22.8,21.4,18.7,18.1],[6,6,4,6,8,6],[160,160,108,258,360,225],[110,110,93,110,175,105],[3.9,3.9,3.85,3.08,3.15,2.76],[2.62,2.875,2.32,3.215,3.44,3.46],[16.46,17.02,18.61,19.44,17.02,20.22],[0,0,1,1,0,1],[1,1,1,0,0,0],[4,4,4,3,3,3],[4,4,1,1,2,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-719ea5eb3280e6a63d65" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-719ea5eb3280e6a63d65">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],[21,21,22.8,21.4,18.7,18.1],[6,6,4,6,8,6],[160,160,108,258,360,225],[110,110,93,110,175,105],[3.9,3.9,3.85,3.08,3.15,2.76],[2.62,2.875,2.32,3.215,3.44,3.46],[16.46,17.02,18.61,19.44,17.02,20.22],[0,0,1,1,0,1],[1,1,1,0,0,0],[4,4,4,3,3,3],[4,4,1,1,2,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 layout: true
@@ -513,7 +677,7 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 "highlightStyle": "github",
 "highlightLines": true,
 "ratio": "16:9",
-"countIncrementalSlides": true
+"countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
