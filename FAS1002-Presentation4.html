@@ -35,15 +35,16 @@ class: center, middle, inverse, title-slide
 
 
 
----
 class: inverse, center, middle
 
 #Forcats
 
-###Le package du Tidyverse pour le catégoriel (for... cats!)
-##### Aussi, un anagramme de factor: du pur génie!
+###Le package du Tidyverse pour le catégoriel  
+###(for... cats!)
+#### Aussi, un anagramme de factor: du pur génie!
 
-.footnote[ Aucun chat n'a été maltraité durant l'utilisation de forcats
+
+######Aucun chat n'a été maltraité durant l'utilisation de forcats
 
 
 ---
@@ -88,12 +89,21 @@ Variable ayant pour valeur un niveau,une catégorie, se trouvant dans une liste
 
 - **Factor**  
   Facteur, variable catégorielle, variable qualitative  
+  
+--
+
 - **Levels**  
   Niveaux: catégories prédéfinies, ce que l'on voit  
   Par défaut: en ordre alphabétique
+  
+--
+
 - **Integer**  
   Nombre entier différent/propre à chaque niveau: ce qui est traité par R  
-  En arrière/en mémoire...
+  En arrière/en mémoire...  
+  
+--
+
 - **Vector**  
   Vecteur, souvent utilisé pour donner les valeurs et leur ordre  
   Écrit: `c(...)`
@@ -107,14 +117,19 @@ Un chiffre utilisé à des fins nominale avec ou sans ordre/hiérarchie signific
 mais sans être sur une échelle CONTINUE peut être considéré comme 
 une variable catégorielle.  
 Ex.: Un numéro de téléphone est catégoriel,  
-la moyenne d'un numéro de téléphone n'est pas une donnée pertinente.  
+la moyenne d'un numéro de téléphone n'est pas une donnée pertinente. 
+
+--
 
 - **Il ne s'agit PAS de chaînes de caractères**  
 Ici, les données (mots, série de caractères) que l'on voit sur l'interface cachent un
 nombre entier.  
-Si vous avez un message d'erreur concernant un "character vector", méfiez-vous...
-- Les chaînes de caractères sont traitées avec stringr  
-- Les facteurs sont traités avec forcats  
+Si vous avez un message d'erreur concernant un "character vector", méfiez-vous...  
+
+--
+
+  - Les chaînes de caractères sont traitées avec stringr  
+  - Les facteurs sont traités avec forcats  
 Il est toutefois possible d'utiliser des vecteurs de caractères dans les facteurs...  
 
 ---
@@ -125,25 +140,41 @@ Il est toutefois possible d'utiliser des vecteurs de caractères dans les facteu
 R est fan #1 de catégoriel, la coercion vers le catégoriel est assez élevée dans
 l'ordre de priorité MAIS il est difficile de les traiter en base R.
 
+--
 #### En base R
-- Utilisation de vecteur
+- Utilisation de vecteur  
+
+--
+
 - Manipulation avec des séries de commandes comme subset() et l'utilisation 
 de vecteurs pour faire le tri et se débrouiller
   - créatif (lire: parfois tiré par les cheveux)
-  - Difficile à suivre = facile d'introduire des biais d'interprétation
+  - Difficile à suivre = facile d'introduire des biais d'interprétation  
+  
+--
+
 - Utilise le point `as.factor()`
 
---
+---
 #Pourquoi forcats?
 
 #### Forcats
 - Vient remplir les lacunes de R  
   Il n'y a donc pas d'équivalent direct pour chaque commande.  
+  
+--
+
 - utilisation 
     -d'objets et de vecteurs est possible  
     - de la syntaxe du tidyverse  
-    - la barre en dessous `as_factor()`    
+    - la barre en dessous `as_factor()` 
+    
+--
+
 - Débute avec fct  
+
+--
+
 - Message d'erreur ou avertissement lorsqu'il manque un niveau  
 
 ---
@@ -162,15 +193,20 @@ class: inverse, center, middle
   - Tidyverse  
      - S'amuser avec readr: `col_factor()`   
 
+--
+
 2. En cours de travail
   - Base R  
       - `as.factor()`  
+      - Vérification avec `is.factor()`
   - Tidyverse  
       - Forcats: `as_factor()`  
 
-.footnote[ l'utilisation de forcats peut être associée à un dataframe pour continuer
-à nettoyer des données, mais est aussi utilise dans les calculs, arguments et
-la préparation de graphique!  
+--
+
+##### L'utilisation de forcats peut être associée à un dataframe pour continuer
+à nettoyer, organiser, nettoyer des données, mais est aussi utilise dans les calculs, 
+arguments et la préparation de graphique!  
 
 ---
 
@@ -182,19 +218,368 @@ class: inverse, center, middle
 
 ## Exploration des données: Base R  
 
-Les fonctions de base sont utilent pour une exploration initiale des données
-Exemple de fonctions connues et utiles:
+Les fonctions de base sont utiles pour une exploration initiale des données
+Exemple de fonctions connues et utiles:  
   `summary()`  
   `summary(df$variable)`  
   `class()`   
  
+---
+
+## Exploration des données : Forcats  
+  - `fct_count(nom_du_facteur, sort = FALSE, prop = FALSE)`  
+    Savoir combien il y a d'entrées de chaque niveaux  
+      - nom_du_facteur  
+        Variable telle qu'écrite dans vos données  
+      - sort  
+        FALSE par défaut: en ordre d'apparition  
+        TRUE: liste en nombre décroissant du nombre d'entrées  
+      - prop  
+        Donne la fraction (proportion), facultatif  
+        
+--
+
+  - `fct_match(nom_du_facteur, lvls)`  
+    Chercher la fréquence d'un niveau en particulier  
+      - nom_du_facteur  
+      - lvls  
+        Le nom du niveau dont *on cherche* la fréquence  
+        Utiliser un ecteur si on cherche plus d'un niveau  
+        Le niveau doit être présent  
+
+---
+
+## Exploration des données: duplicata
+
+Forcats  
+  - `fct_unique(nom_du_facteur)`   
+    Enlever les entrées en duplicata  
+      - Donné en ordre de niveau  
+        Il faudra utiliser base R pour avoir l'ordre d'apparition dans le vecteur  
+
+--
+
+Base R  
+  - `unique(nom_du_facteur)`  
+    - Similaire, mais donne l'ordre d'apparition dans le vecteur  
+    - Fonctionne avec d'autres types de variables  
+
+---
+
+class: inverse, center, middle
+
+#Association de facteurs
+
+---
+
+## Association de facteurs avec forcats
+
+  - `fct_c(facteur1, facteur2)`  
+    ou  
+    `fct_cross(facteur1, facteur2)`  
+    Combine deux facteurs avec des niveaux DIFFÉRENTS  
+
+
+```r
+#Création de deux "factors"
+facteur1 &lt;- as_factor(c("Roger", "Gontrand", "Gerald"))
+facteur2 &lt;- as_factor(c("Armande", "Sylvaine", "Anita"))
+#Combiner les deux "factor"
+facteursCross &lt;- fct_c(facteur1, facteur2)
+#Vérification
+facteursCross
+```
+
+```
+## [1] Roger    Gontrand Gerald   Armande  Sylvaine Anita   
+## Levels: Roger Gontrand Gerald Armande Sylvaine Anita
+```
+  
+---
+## Association de facteurs avec forcats
+  - `fct_unify(Liste_de_facteurs, levels = lvls_union(liste_de_facteurs))`  
+    Combine deux ou plusieurs facteurs ayant certain niveaux qui sont PAREILS
+    Utile pour harmoniser/standardiser les niveaux  
+      - liste_de_facteurs  
+        Variables à joindre ensemble  
+      - levels  
+        Par défaut: union de tous les niveaux  
+        Utiliser l'argument si besoin de spécifier les niveaux  
+
+---
+
+class: inverse, center, middle
+
+#Changement de l'ordre des niveaux
+
+---
+
+## Changement de l'ordre des niveaux avec forcats
+### Méthode manuelle
+
+  - `fct_relevel(nom_du_facteur, ..., after = 0L)`  
+    - nom_du_facteur  
+    - ...  
+      Facultatif: la fonction désirée pour reclasser  
+      le niveau initial va être passé dans la fonction et le résultat à la 
+      sortie va indiquer où le niveau va être placé  
+    - after  
+      Endroit où le niveau sera placé  
+      
+  *Ressemble à stats::relevel() qui permet de bouger des niveaux*
+
+---
+## Changement de l'ordre des niveaux avec forcats
+### Méthode manuelle : Exemple!
+
+
+```r
+lettres &lt;- factor(c("a", "b", "c", "d", "e", "f", "g"), )
+fct_relevel(lettres)
+```
+
+```
+## [1] a b c d e f g
+## Levels: a b c d e f g
+```
+
+```r
+fct_relevel(lettres, "e", "a", after = Inf)
+```
+
+```
+## [1] a b c d e f g
+## Levels: b c d f g e a
+```
+
+Respecte l'ordre donné:
+
+```r
+fct_relevel(lettres, "a", "e", after = Inf)
+```
+
+```
+## [1] a b c d e f g
+## Levels: b c d f g a e
+```
+
+---
+
+## Changement de l'ordre des niveaux avec forcats
+
+  - `fct_infreq()`  
+    ou  
+    `fct_inseq()`  
+    C'est à dire in frequency/sequence  
+      - Défini par la fréquence ou la valeur numérique du niveau  
+  - `fct_inorder()`  
+      - Selon l'ordre dans lequel les niveaux apparaissent  
+
+Dans les trois cas: `fct_SPECIFIER-ICI(nom_du_facteur, ordered = NA)`  
+      - nom_du_facteur  
+      - ordered  
+        Par défaut NA: garde le statut tel quel (ordonné ou non)  
+
+---
+## Changement de l'ordre des niveaux avec forcats
+### Ordre inverse: pratique pour les graphiques!
+
+  - `fct_rev(nom_du_facteur)`*    
+    Truc pour s'en suvenir: rev pour reverse order
+Aussi simple que ça!  
+
+.footnote[[*] Fonctionne aussi avec les character vector
+
+---
+
+## Changement de l'ordre des niveaux avec forcats
+
+  - `fct_shift(nom_du_facteur, n = 2)`  
+    Changement d'ordre pour des données cycliques  
+    Ex.: jours de la semaine  
+      - nom_du_facteur  
+      - n =  
+        Nombre de bond de position "shift"  
+        Positif: déplacement vers la gauche  
+        Négatif: vers la droite
+        
+---
+## Changement de l'ordre des niveaux avec forcats
+    - `fct_shuffle(nom_du_facteur)`  
+      Redistribution aléatoire des niveaux  
+      Attention!  
+      La redistribution se fera à chaque fois que vous lancer votre code  
+
+
+```r
+prenoms_g &lt;- factor(c("Gino", "Gina", "Ginette", "Bob"))
+fct_shuffle(prenoms_g)
+```
+
+```
+## [1] Gino    Gina    Ginette Bob    
+## Levels: Ginette Gino Bob Gina
+```
+
+---
+
+## Changement de l'ordre des niveaux avec forcats
+### Encore plus de plaisir: réorganisation en fonction d'autres variables
+
+  - `fct_reorder()`  
+    Réorganisation des niveaux en fonction de sa relation à UNE variable  
+
+--
+  et  
+  
+  - `fct_reorder2()`  
+    Réorganisation des niveaux en fonction de sa relation à DEUX variables  
+
+Facile et pratique à intégrer dans ggplot2!
+
+---
+
+class: inverse, center, middle
+
+#Changement des valeurs/noms des niveaux
+
+---
+
+## Changement de valeurs des niveaux
+### Méthode manuelle
+
+  - `fct_recode(facteur_ou_vecteur, nouveau_nom = "ancien_nom")`  
+    - facteur_ou_vecteur  
+    - nouveau_nom = "ancien_nom"  
+      Séquence donnant le nouveau nom et l'associe à l'ancien niveau  
+      Par défaut: les niveaux sans précision sont gardés,  
+      NULL pour enlever les niveaux non précisés  
+  
+  - `fct_relabel()`  
+    Résultat similaire, mais utilise les règles de purrr::map  
+
+---
+## Changement de valeurs des niveaux
+### Anonymisation sommaire des données
+
+Pour les données sensibles:  
+
+  - `fct_anon(nom_du_facteur, prefix = " ")`  
+    Remplacement du niveau par un chiffre de façon aléatoire.  
+    La valeur et l'ordre du niveau de départ ne sont PAS gardés.  
+    - nom_du_facteur  
+    - prefix = " "  
+      Permet l'ajout d'un préfixe devant le nouvel identifiant  
+
+Attention!   
+Il existe des packages et algorithmes pour une anonymisation complète et 
+complexe des données. Certains permettent de garder les informations de 
+transition.
+    
+---
+## Changement de valeurs des niveaux
+### Rassembler des niveaux manuellement
+
+  - `fct_collapse(nom_du_facteur, ..., other_level = NULL, 
+    group_other = 'DEPRECATED")`  
+    Rassembler les niveaux en groupes déterminés MANUELLEMENT  
+    - nom_du_facteur  
+    - ...  
+    Vecteur des niveaux dont on veut changer les noms  
+    - other_level  
+    Niveaux qui seront classés dans "other"  
+    - group_other  
+    Pour remplacer les niveaux non mentionnés par "other"  
+    
+    
+---
+## Changement de valeurs des niveaux  
+### Rassembler des niveaux: la famille "lump"  
+
+Permet de rassembler des niveaux selon des critères  
+Généralement, rassembler ensemble les niveaux qui apparaissent moins que n fois  
+
+  - `fct_lump(nom_du_facteur, n, prop, w, other_level, ties.method, min)`  
+    et ses variantes:  
+    `fct_lump_min(), fct_lump_prop(), fct_lump_n(), fct_lump_lowfreq()`  
+    où  
+    - nom_du_facteur  
+    - n  
+      Si positif: conserve les valeurs les PLUS communes  
+      Si négatif: conserve les valeurs les MOINS communes  
+    - other_level  
+      Indique la valeur à donner au niveau utilisé pour les valeurs autres  
+    - ties.method   
+      Comment traiter les niveaux ayant la même valeur  
+    - min  
+      Conserve les niveaux qui apparaissent au moins min fois  
+
+---
+
+## Changement de valeurs des niveaux
+### Rassembler des niveaux: la catégorie autre
+
+  - `fct_other(nom_du_facteur, keep, drop, other_level= "Other")`  
+    Vient compléter les fonctions précédentes  
+    Converti les niveaux spécifiés en la catégorie autre  
+    PAS besoin d'avoir moins d'entrées contrairement à lump  
+    - nom_du facteur  
+    - keep ou drop  
+      Pour garder (keep) ou enlever (drop) les niveaux inscrits dans other_level  
+    - Other_level  
+      Liste des niveaux à mettre dans "other"  
+    
+---
+
+class: inverse, center, middle
+
+#Ajouter et enlever des niveaux
+
+---
+
+## Ajouter et enlever des niveaux
+
+Trois options:  
+
+  - `fct_drop(nom_du_facteur, only)`  
+    - fct_du_facteur  
+    - only  
+      Vecteur qui indique les niveaux à enlever  
+  - `fct_expand(nom_du_facteur, ...)`  
+    - nom_du_facteur  
+    - ...  
+      Niveaux à ajouter  
+
+
+  - `fct_explicit_na(nom_du_facteur, na_level = "Autre")`  
+    - nom_du_facteur  
+    - na_level  
+      Niveau à utiliser pour les valeurs manquantes, dites NA  
+      Mettre entre double guillements le nom qu e vous voulez attribuer au NA  
+      Exemple: Autre  
+---
+class: inverse, center, middle
+
+Et voilà! C'est aussi simple que ça.
+
+---
+## Quelques ressources:
+[Page de forcats dans le Tidyverse](https://forcats.tidyverse.org/)
+[R for Epidemiologists](https://epirhandbook.com/en/)
+[R for Data Sciences](https://r4ds.had.co.nz/factors.html)
+
+---
+class: inverse, center, middle
+
+[](https://media.giphy.com/media/xepQrrT6lxQTm/giphy.gif)
+#Fin!
 
 
 
 
 
 
-
+---
 
 ## Typography
 
@@ -531,8 +916,8 @@ exclude: false
 DT::datatable(head(mtcars), fillContainer = FALSE, options = list(pageLength = 4))
 ```
 
-<div id="htmlwidget-719ea5eb3280e6a63d65" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-719ea5eb3280e6a63d65">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],[21,21,22.8,21.4,18.7,18.1],[6,6,4,6,8,6],[160,160,108,258,360,225],[110,110,93,110,175,105],[3.9,3.9,3.85,3.08,3.15,2.76],[2.62,2.875,2.32,3.215,3.44,3.46],[16.46,17.02,18.61,19.44,17.02,20.22],[0,0,1,1,0,1],[1,1,1,0,0,0],[4,4,4,3,3,3],[4,4,1,1,2,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-73051011b8fe2fe39962" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-73051011b8fe2fe39962">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],[21,21,22.8,21.4,18.7,18.1],[6,6,4,6,8,6],[160,160,108,258,360,225],[110,110,93,110,175,105],[3.9,3.9,3.85,3.08,3.15,2.76],[2.62,2.875,2.32,3.215,3.44,3.46],[16.46,17.02,18.61,19.44,17.02,20.22],[0,0,1,1,0,1],[1,1,1,0,0,0],[4,4,4,3,3,3],[4,4,1,1,2,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 layout: true

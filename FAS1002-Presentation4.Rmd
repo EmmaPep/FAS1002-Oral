@@ -35,7 +35,9 @@ style_mono_light(base_color = "#320E3B")
 
 ```{r, include=FALSE}
 library(tidyverse)
-DataDemo <- read.csv("BDdemo4.csv")
+DataDemo <- read.csv("BDdemo4.csv", stringsAsFactors = TRUE)
+Cliniques <- factor(DataDemo$Clinic_Code)
+Age <- factor(DataDemo$Age_Value)
 ```
 
 
@@ -43,10 +45,12 @@ class: inverse, center, middle
 
 #Forcats
 
-###Le package du Tidyverse pour le catégoriel (for... cats!)
-##### Aussi, un anagramme de factor: du pur génie!
+###Le package du Tidyverse pour le catégoriel  
+###(for... cats!)
+#### Aussi, un anagramme de factor: du pur génie!
 
-.footnote[ Aucun chat n'a été maltraité durant l'utilisation de forcats
+
+######Aucun chat n'a été maltraité durant l'utilisation de forcats
 
 
 ---
@@ -91,15 +95,21 @@ Variable ayant pour valeur un niveau,une catégorie, se trouvant dans une liste
 
 - **Factor**  
   Facteur, variable catégorielle, variable qualitative  
+  
 --
+
 - **Levels**  
   Niveaux: catégories prédéfinies, ce que l'on voit  
   Par défaut: en ordre alphabétique
+  
 --
+
 - **Integer**  
   Nombre entier différent/propre à chaque niveau: ce qui est traité par R  
-  En arrière/en mémoire...
+  En arrière/en mémoire...  
+  
 --
+
 - **Vector**  
   Vecteur, souvent utilisé pour donner les valeurs et leur ordre  
   Écrit: `c(...)`
@@ -113,14 +123,17 @@ Un chiffre utilisé à des fins nominale avec ou sans ordre/hiérarchie signific
 mais sans être sur une échelle CONTINUE peut être considéré comme 
 une variable catégorielle.  
 Ex.: Un numéro de téléphone est catégoriel,  
-la moyenne d'un numéro de téléphone n'est pas une donnée pertinente.  
+la moyenne d'un numéro de téléphone n'est pas une donnée pertinente. 
+
 --
 
 - **Il ne s'agit PAS de chaînes de caractères**  
 Ici, les données (mots, série de caractères) que l'on voit sur l'interface cachent un
 nombre entier.  
-Si vous avez un message d'erreur concernant un "character vector", méfiez-vous...
+Si vous avez un message d'erreur concernant un "character vector", méfiez-vous...  
+
 --
+
   - Les chaînes de caractères sont traitées avec stringr  
   - Les facteurs sont traités avec forcats  
 Il est toutefois possible d'utiliser des vecteurs de caractères dans les facteurs...  
@@ -135,13 +148,17 @@ l'ordre de priorité MAIS il est difficile de les traiter en base R.
 
 --
 #### En base R
-- Utilisation de vecteur
+- Utilisation de vecteur  
+
 --
+
 - Manipulation avec des séries de commandes comme subset() et l'utilisation 
 de vecteurs pour faire le tri et se débrouiller
   - créatif (lire: parfois tiré par les cheveux)
-  - Difficile à suivre = facile d'introduire des biais d'interprétation
+  - Difficile à suivre = facile d'introduire des biais d'interprétation  
+  
 --
+
 - Utilise le point `as.factor()`
 
 ---
@@ -150,14 +167,20 @@ de vecteurs pour faire le tri et se débrouiller
 #### Forcats
 - Vient remplir les lacunes de R  
   Il n'y a donc pas d'équivalent direct pour chaque commande.  
+  
 --
-- utilisation 
+
+- utilisation   
     -d'objets et de vecteurs est possible  
     - de la syntaxe du tidyverse  
-    - la barre en dessous `as_factor()`    
+    - la barre en dessous `as_factor()` 
+    
 --
+
 - Débute avec fct  
+
 --
+
 - Message d'erreur ou avertissement lorsqu'il manque un niveau  
 
 ---
@@ -177,17 +200,42 @@ class: inverse, center, middle
      - S'amuser avec readr: `col_factor()`   
 
 --
+
 2. En cours de travail
   - Base R  
       - `as.factor()`  
       - Vérification avec `is.factor()`
   - Tidyverse  
-      - Forcats: `as_factor()`  
+      - Forcats: `as_factor()` 
 
---
-.footnote[ l'utilisation de forcats peut être associée à un dataframe pour continuer
-à nettoyer, organiser, nettoyer des données, mais est aussi utilise dans les calculs, 
-arguments et la préparation de graphique!  
+---
+#Création d'un factor
+
+1. Avoir une variable (en vecteur)
+```{r}
+joursdelasemaine <- c("Mardi", "Mercredi", "Vendredi")
+```
+
+2. Créer une liste de niveaux (toujours en vecteur)
+```{r}
+niveaux_jours <- c("Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi")
+```
+
+---
+(suite)
+3. Tout mettre ensemble: création d'un facteur
+Version base R:
+```{r}
+jours_facteur1 <- factor(joursdelasemaine, levels = niveaux_jours)
+jours_facteur1
+```
+
+Version forcats:
+```{r}
+jours_facteur_forcats <- as_factor(joursdelasemaine)
+jours_facteur_forcats
+```
+
 
 ---
 
@@ -216,15 +264,24 @@ Exemple de fonctions connues et utiles:
         FALSE par défaut: en ordre d'apparition  
         TRUE: liste en nombre décroissant du nombre d'entrées  
       - prop  
-        Donne la fraction (proportion), facultatif 
---
+        Donne la fraction (proportion), facultatif  
+```{r}
+fct_count(jours_facteur1)
+```
+
+---
+
   - `fct_match(nom_du_facteur, lvls)`  
-    Chercher la fréquence d'un niveau en particulier  
+    Chercher la présence d'un niveau en particulier  
       - nom_du_facteur  
       - lvls  
-        Le nom du niveau dont *on cherche* la fréquence  
-        Utiliser un ecteur si on cherche plus d'un niveau  
-        Le niveau doit être présent  
+        Le nom du niveau dont cherche la présence 
+        Utiliser un vecteur si on cherche plus d'un niveau  
+        Le niveau doit être présent  sinon code d'erreur  
+
+```{r}
+fct_match(jours_facteur1, "Vendredi")
+```
 
 ---
 
@@ -236,10 +293,28 @@ Forcats
       - Donné en ordre de niveau  
         Il faudra utiliser base R pour avoir l'ordre d'apparition dans le vecteur  
 
+--
+
 Base R  
   - `unique(nom_du_facteur)`  
     - Similaire, mais donne l'ordre d'apparition dans le vecteur  
     - Fonctionne avec d'autres types de variables  
+
+---
+## Exemple: Données en duplicata
+Exploration et utilisation de la variable clinique
+Compter les entrées:
+```{r}
+fct_count(Cliniques)
+```
+---
+## Exemple: Données en duplicata
+Exploration et utilisation de la variable clinique
+Avoir les données uniques:
+Exemple: le mettre dans un objet
+```{r}
+cliniques_uniques <- fct_unique(Cliniques)
+```
 
 ---
 
@@ -272,7 +347,7 @@ facteursCross
     Combine deux ou plusieurs facteurs ayant certain niveaux qui sont PAREILS
     Utile pour harmoniser/standardiser les niveaux  
       - liste_de_facteurs  
-        Variables à joindre ensemble  
+        Variables à joindre ensemble *en format liste*  
       - levels  
         Par défaut: union de tous les niveaux  
         Utiliser l'argument si besoin de spécifier les niveaux  
@@ -286,7 +361,7 @@ class: inverse, center, middle
 ---
 
 ## Changement de l'ordre des niveaux avec forcats
-### Méthode manuelle
+### Méthode manuelle (un exemple suivra)
 
   - `fct_relevel(nom_du_facteur, ..., after = 0L)`  
     - nom_du_facteur  
@@ -332,6 +407,10 @@ Dans les trois cas: `fct_SPECIFIER-ICI(nom_du_facteur, ordered = NA)`
       - nom_du_facteur  
       - ordered  
         Par défaut NA: garde le statut tel quel (ordonné ou non)  
+
+---
+
+
 
 ---
 ## Changement de l'ordre des niveaux avec forcats
@@ -427,8 +506,7 @@ transition.
 ## Changement de valeurs des niveaux
 ### Rassembler des niveaux manuellement
 
-  - `fct_collapse(nom_du_facteur, ..., other_level = NULL, 
-    group_other = 'DEPRECATED")`  
+  - `fct_collapse(nom_du_facteur, ..., other_level = NULL, group_other = 'DEPRECATED")`  
     Rassembler les niveaux en groupes déterminés MANUELLEMENT  
     - nom_du_facteur  
     - ...  
@@ -460,6 +538,16 @@ Généralement, rassembler ensemble les niveaux qui apparaissent moins que n foi
       Comment traiter les niveaux ayant la même valeur  
     - min  
       Conserve les niveaux qui apparaissent au moins min fois  
+---
+---
+## Changement de valeurs des niveaux  
+### Rassembler des niveaux: la famille "lump"  
+Utilisation de `fct_lump_n()` pour simplifier et avoir 10 niveaux + autres
+```{r}
+CliniquesSimples <- fct_lump_n(Cliniques, 10, other_level = "Autres")
+CliniquesSimplesUniques<- fct_unique(CliniquesSimples)
+CliniquesSimplesUniques
+```
 
 ---
 
@@ -520,331 +608,3 @@ class: inverse, center, middle
 
 [](https://media.giphy.com/media/xepQrrT6lxQTm/giphy.gif)
 #Fin!
-
-
-
-
-
-
----
-
-## Typography
-
-Text can be **bold**, _italic_, ~~strikethrough~~, or `inline code`.
-
-[Link to another slide](#colors).
-
-### Lorem Ipsum
-
-Dolor imperdiet nostra sapien scelerisque praesent curae metus facilisis dignissim tortor. 
-Lacinia neque mollis nascetur neque urna velit bibendum. 
-Himenaeos suspendisse leo varius mus risus sagittis aliquet venenatis duis nec.
-
-- Dolor cubilia nostra nunc sodales
-
-- Consectetur aliquet mauris blandit
-
-- Ipsum dis nec porttitor urna sed
-
----
-name: colors
-
-## Colors
-
-.left-column[
-Text color
-
-[Link Color](#3)
-
-**Bold Color**
-
-_Italic Color_
-
-`Inline Code`
-]
-
-.right-column[
-Lorem ipsum dolor sit amet, [consectetur adipiscing elit (link)](#3), 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-Erat nam at lectus urna.
-Pellentesque elit ullamcorper **dignissim cras tincidunt (bold)** lobortis feugiat. 
-_Eros donec ac odio tempor_ orci dapibus ultrices. 
-Id porta nibh venenatis cras sed felis eget velit aliquet.
-Aliquam id diam maecenas ultricies mi.
-Enim sit amet 
-`code_color("inline")`
-venenatis urna cursus eget nunc scelerisque viverra.
-]
-
----
-
-# Big Topic or Inverse Slides `#`
-
-## Slide Headings `##`
-
-### Sub-slide Headings `###`
-
-#### Bold Call-Out `####`
-
-This is a normal paragraph text. Only use header levels 1-4.
-
-##### Possible, but not recommended `#####`
-
-###### Definitely don't use h6 `######`
-
----
-
-# Left-Column Headings
-
-.left-column[
-## First
-
-## Second
-
-## Third
-]
-
-.right-column[
-Dolor quis aptent mus a dictum ultricies egestas.
-
-Amet egestas neque tempor fermentum proin massa!
-
-Dolor elementum fermentum pharetra lectus arcu pulvinar.
-]
-
----
-class: inverse center middle
-
-# Topic Changing Interstitial
-
---
-
-```
-class: inverse center middle
-```
-
----
-layout: true
-
-## Blocks
-
----
-
-### Blockquote
-
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
-
----
-
-### Code Blocks
-
-#### R Code
-
-```{r eval=FALSE}
-ggplot(gapminder) +
-  aes(x = gdpPercap, y = lifeExp, size = pop, color = country) +
-  geom_point() +
-  facet_wrap(~year)
-```
-
-#### JavaScript
-
-```js
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
-
----
-
-### More R Code
-
-```{r eval=FALSE}
-dplyr::starwars %>% dplyr::slice_sample(n = 4)
-```
-
----
-
-```{r message=TRUE, eval=requireNamespace("cli", quietly = TRUE)}
-cli::cli_alert_success("It worked!")
-```
-
---
-
-```{r message=TRUE}
-message("Just a friendly message")
-```
-
---
-
-```{r warning=TRUE}
-warning("This could be bad...")
-```
-
---
-
-```{r error=TRUE}
-stop("I hope you're sitting down for this")
-```
-
-
----
-layout: true
-
-## Tables
-
----
-exclude: `r if (requireNamespace("tibble", quietly=TRUE)) "false" else "true"`
-
-```{r eval=requireNamespace("tibble", quietly=TRUE)}
-tibble::as_tibble(mtcars)
-```
-
----
-
-```{r}
-knitr::kable(head(mtcars), format = 'html')
-```
-
----
-exclude: `r if (requireNamespace("DT", quietly=TRUE)) "false" else "true"`
-
-```{r eval=requireNamespace("DT", quietly=TRUE)}
-DT::datatable(head(mtcars), fillContainer = FALSE, options = list(pageLength = 4))
-```
-
----
-layout: true
-
-## Lists
-
----
-
-.pull-left[
-#### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-]
-
-.pull-right[
-
-#### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-]
-
----
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
----
-
-### Nesting an ol in ul in an ol
-
-- level 1 item (ul)
-  1. level 2 item (ol)
-  1. level 2 item (ol)
-    - level 3 item (ul)
-    - level 3 item (ul)
-- level 1 item (ul)
-  1. level 2 item (ol)
-  1. level 2 item (ol)
-    - level 3 item (ul)
-    - level 3 item (ul)
-  1. level 4 item (ol)
-  1. level 4 item (ol)
-    - level 3 item (ul)
-    - level 3 item (ul)
-- level 1 item (ul)
-
----
-layout: true
-
-## Plots
-
----
-
-```{r plot-example, eval=requireNamespace("ggplot2", quietly=TRUE)}
-library(ggplot2)
-(g <- ggplot(mpg) + aes(hwy, cty, color = class) + geom_point())
-```
-
-
----
-layout: false
-
-## Square image
-
-<center><img src="https://octodex.github.com/images/labtocat.png" height="400px" /></center>
-
-.footnote[GitHub Octocat]
-
----
-
-### Wide image
-
-![](https://guides.github.com/activities/hello-world/branching.png)
-
-.footnote[Wide images scale to 100% slide width]
-
----
-
-## Two images
-
-.pull-left[
-![](https://octodex.github.com/images/motherhubbertocat.png)
-]
-
-.pull-right[
-![](https://octodex.github.com/images/dinotocat.png)
-]
-
----
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
----
-class: center, middle
-
-# Thanks!
-
-Slides created via the R packages:
-
-[**xaringan**](https://github.com/yihui/xaringan)<br>
-[gadenbuie/xaringanthemer](https://github.com/gadenbuie/xaringanthemer)
-
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
