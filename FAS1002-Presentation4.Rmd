@@ -263,8 +263,7 @@ Exemple de fonctions connues et utiles:
       - sort  
         FALSE par défaut: en ordre d'apparition  
         TRUE: liste en nombre décroissant du nombre d'entrées  
-      - prop  
-        Donne la fraction (proportion), facultatif  
+      - prop: Donne la fraction (proportion), facultatif  
 ```{r}
 fct_count(jours_facteur1)
 ```
@@ -314,6 +313,7 @@ Avoir les données uniques:
 Exemple: le mettre dans un objet
 ```{r}
 cliniques_uniques <- fct_unique(Cliniques)
+cliniques_uniques
 ```
 
 ---
@@ -344,7 +344,7 @@ facteursCross
 ---
 ## Association de facteurs avec forcats
   - `fct_unify(Liste_de_facteurs, levels = lvls_union(liste_de_facteurs))`  
-    Combine deux ou plusieurs facteurs ayant certain niveaux qui sont PAREILS
+    Combine deux ou plusieurs facteurs ayant certain niveaux qui sont PAREILS  
     Utile pour harmoniser/standardiser les niveaux  
       - liste_de_facteurs  
         Variables à joindre ensemble *en format liste*  
@@ -410,9 +410,6 @@ Dans les trois cas: `fct_SPECIFIER-ICI(nom_du_facteur, ordered = NA)`
 
 ---
 
-
-
----
 ## Changement de l'ordre des niveaux avec forcats
 ### Ordre inverse: pratique pour les graphiques!
 
@@ -420,7 +417,7 @@ Dans les trois cas: `fct_SPECIFIER-ICI(nom_du_facteur, ordered = NA)`
     Truc pour s'en suvenir: rev pour reverse order
 Aussi simple que ça!  
 
-.footnote[[*] Fonctionne aussi avec les character vector
+Fonctionne aussi avec les character vector
 
 ---
 
@@ -539,7 +536,6 @@ Généralement, rassembler ensemble les niveaux qui apparaissent moins que n foi
     - min  
       Conserve les niveaux qui apparaissent au moins min fois  
 ---
----
 ## Changement de valeurs des niveaux  
 ### Rassembler des niveaux: la famille "lump"  
 Utilisation de `fct_lump_n()` pour simplifier et avoir 10 niveaux + autres
@@ -599,12 +595,11 @@ Et voilà! C'est aussi simple que ça.
 
 ---
 ## Quelques ressources:
-[Page de forcats dans le Tidyverse](https://forcats.tidyverse.org/)
-[R for Epidemiologists](https://epirhandbook.com/en/)
+[Page de forcats dans le Tidyverse](https://forcats.tidyverse.org/)  
+[R for Epidemiologists](https://epirhandbook.com/en/)  
 [R for Data Sciences](https://r4ds.had.co.nz/factors.html)
 
 ---
 class: inverse, center, middle
 
-[](https://media.giphy.com/media/xepQrrT6lxQTm/giphy.gif)
 #Fin!
