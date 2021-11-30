@@ -12,7 +12,7 @@ output:
       highlightStyle: github
       highlightLines: true
       ratio: 16:9
-      countIncrementalSlides: true
+      countIncrementalSlides: false
 ---
 
 ```{r setup, include=FALSE}
@@ -32,6 +32,105 @@ knitr::opts_chunk$set(
 library(xaringanthemer)
 style_mono_light(base_color = "#320E3B")
 ```
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+
+---
+```
+class: inverse center middle
+```
+
+#Forcats
+
+###Le package du Tidyverse pour le catégoriel (for... cats!)
+##### Aussi, un anagramme de factor: du pur génie!
+
+- Aucun chat n'a été maltraité durant l'utilisation de forcats
+
+
+---
+
+# Au menu
+
+1. Variables catégorielles
+2. Introduction à forcats
+3. Commencer avec des factors
+4. Exploration des données
+5. Associations des données
+6. Changement de l'ordre
+7. Changement des valeurs
+8. Ajout et élimination de classes
+9. Conclusion
+
+
+---
+
+# Variables catégorielles
+## Survol rapide
+
+**Qu'est-ce qu'un facteur?**
+- Variable qualitative  
+Variable ayant pour valeur un niveau,une catégorie, se trouvant dans une liste 
+(pré)définie de possibilités.
+  - Ordinale  
+    Peut être mise en ordre
+  - Nominale  
+    N'a pas de hiérarchie
+  - Binaire  
+    n'a que deux valeurs (excluant le NA)  
+    En statistique, cela inclu les variables booléennes, vrai ou faux 
+    et tout autre variable à 2 choix (dichotomiques) (H/F, Y/N). \
+    Dans R, il est possible de changer la classe en fonction de nos
+    besoins en tout temps.
+
+---
+
+# Variables catégorielles
+## Vocabulaire
+
+- **Factor**  
+  Facteur, variable catégorielle, variable qualitative  
+- **Levels**  
+  Niveaux: catégories prédéfinies, ce que l'on voit  
+  Par défaut: en ordre alphabétique
+- **Integer**  
+  Nombre entier différent/propre à chaque niveau: ce qui est traité par R  
+  En arrière/en mémoire...
+- **Vector**  
+  Vecteur, souvent utilisé pour donner les valeurs et leur ordre  
+  Écrit: c(...)
+
+---
+#Variables catégorielles
+## Attention aux pièges!
+
+- **Les chiffres**  
+Un chiffre utilisé à des fins nominale avec ou sans ordre/hiérarchie significative, 
+mais sans être sur une échelle CONTINUE peut être considéré comme 
+une variable catégorielle.  
+Ex.: Un numéro de téléphone est catégoriel,  
+la moyenne d'un numéro de téléphone n'est pas une donnée pertinente.  
+
+- **Il ne s'agit PAS de chaînes de caractères**  
+Ici, les données (mots, série de caractères) que l'on voit sur l'interface cachent un
+nombre entier.  
+Si vous avez un message d'erreur concernant un "character vector", méfiez-vous...
+- Les chaînes de caractères sont traitées avec stringr  
+- Les facteurs sont traités avec forcats  
+Il est toutefois possible d'utiliser des vecteurs de caractères dans les facteurs...  
+
+---
+
+
+
+
+
+
+
+
 
 ## Typography
 
